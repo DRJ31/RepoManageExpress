@@ -77,7 +77,7 @@ const search_object = (req, res) => {
   }
 
   const query = {}
-  query[key] = typeof val === 'string' ? new RegExp(val) : val
+  query[key] = typeof val === 'string' ? new RegExp(val, "i") : val
   mongo.select('info', query, data => {
     for (let i = 0; i < data.length; i++) {
       data[i]['_id'] = data[i]['_id'].toString()
