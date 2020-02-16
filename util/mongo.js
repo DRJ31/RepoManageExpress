@@ -1,7 +1,8 @@
 const MongoClient = require('mongodb').MongoClient
 const assert = require('assert')
+const { HOST } = require('./config')
 
-const url = "mongodb://127.0.0.1:27017"
+const url = `mongodb://${HOST}:27017`
 const DATABASE = "manage"
 
 const connectDB = (callback) => {
