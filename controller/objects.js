@@ -21,7 +21,7 @@ const insert_object = (req, res) => {
     const new_keys = req.body.keys
     const all_keys = keys[0]._keys
     for (let key of new_keys) {
-      if (all_keys.indexOf(key) > -1) {
+      if (all_keys.indexOf(key) === -1) {
         all_keys.push(key)
       }
     }
@@ -39,7 +39,7 @@ const update_object = (req, res) => {
     const all_keys = keys[0]._keys
     delete data['_id']
     for (let key of new_keys) {
-      if (all_keys.indexOf(key) > -1) {
+      if (all_keys.indexOf(key) === -1) {
         all_keys.push(key)
       }
     }
