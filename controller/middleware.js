@@ -1,15 +1,14 @@
 const redis = require('../util/redis')
 
 const auth_user = (req, res, next) => {
-  get_user(res, req.body.token, () => next())
+  let token = req.body.token || req.query.token
+  get_user(res, `token_${token}`, () => next())
 }
 
 const get_user = (res, token, callback) => {
-  redis.get(token, (err, result) => {
-    if (err) {
-      res.status(401).send({
-        error: "You need to login."
-      })
+  redis.get(token, result => {
+    if (!result) {
+      res.status(401).send({error: "You need to login"})
     } else {
       callback(result)
     }
