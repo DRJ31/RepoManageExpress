@@ -26,7 +26,7 @@ const router = (app) => {
 
   manage.post('/user', check_user)
 
-  manage.post('/password', change_password)
+  manage.put('/password', change_password)
 
   manage.post('/logout', logout)
 }
