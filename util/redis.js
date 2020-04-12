@@ -1,5 +1,5 @@
-const redis = require('redis')
-const assert = require('assert')
+import redis from 'redis'
+import assert from 'assert'
 
 const set = (k, v, callback = () => {}) => {
   const client = redis.createClient()
@@ -39,4 +39,4 @@ const del = (k, callback = () => {}) => {
   callback(null)
 }
 
-module.exports = { set, get, del }
+export default { set, get, del }

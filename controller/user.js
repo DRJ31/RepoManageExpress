@@ -1,7 +1,7 @@
-const mongo = require('../util/mongo')
-const redis = require('../util/redis')
-const { CODE } = require('../util/config')
-const uuidv4 = require("uuid/v4")
+import uuidv4 from 'uuid/v4'
+import mongo from '../util/mongo'
+import redis from '../util/redis'
+import { CODE } from '../util/config'
 
 const login = (req, res) => {
   const { username, password } = req.body
@@ -72,7 +72,7 @@ const change_password = (req, res) => {
   })
 }
 
-module.exports = {
+export default {
   login,
   logout,
   register,

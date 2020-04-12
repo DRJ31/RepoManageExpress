@@ -1,5 +1,5 @@
-const mongo = require('../util/mongo')
-const ObjectId = require('mongodb').ObjectId
+import mongo from '../util/mongo'
+import { ObjectId } from 'mongodb'
 
 const get_all = (req, res) => {
   mongo.select('info', {
@@ -86,7 +86,7 @@ const search_object = (req, res) => {
   })
 }
 
-module.exports = {
+export default {
   get_all,
   insert_object,
   update_object,

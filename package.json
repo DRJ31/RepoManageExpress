@@ -2,19 +2,24 @@
   "name": "repo",
   "version": "1.0.0",
   "description": "Repo Management System",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "pkg index.js -t node12-linux-x64 -o repo"
+    "build": "pkg server.js -t node12-linux-x64 -o repo"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
     "assert": "^2.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongodb": "^3.5.3",
     "redis": "^3.0.2",
     "uuid": "^3.4.0"
+  },
+  "devDependencies": {
+    "@babel/register": "^7.9.0"
   }
 }

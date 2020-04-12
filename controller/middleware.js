@@ -1,11 +1,11 @@
-const redis = require('../util/redis')
+import redis from '../util/redis'
 
-const auth_user = (req, res, next) => {
+export const auth_user = (req, res, next) => {
   let token = req.body.token || req.query.token
   get_user(res, `token_${token}`, () => next())
 }
 
-const get_user = (res, token, callback) => {
+export const get_user = (res, token, callback) => {
   redis.get(token, result => {
     if (!result) {
       res.status(401).send({error: "You need to login"})
@@ -13,9 +13,4 @@ const get_user = (res, token, callback) => {
       callback(result)
     }
   })
-}
-
-module.exports = {
-  auth_user,
-  get_user
 }

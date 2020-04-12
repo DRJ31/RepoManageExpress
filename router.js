@@ -1,7 +1,7 @@
-const { get_all, insert_object, update_object, delete_object, search_object } = require('./controller/objects')
-const { auth_user } = require('./controller/middleware')
-const { logout, login, register, check_user, change_password } = require('./controller/user')
-const express = require('express')
+import objects from './controller/objects'
+import { auth_user } from './controller/middleware'
+import user from './controller/user'
+import express from 'express'
 
 const router = (app) => {
   const manage = express()
@@ -10,25 +10,25 @@ const router = (app) => {
 
   app.get('/', (req, res) => res.send("Welcome"))
 
-  app.get('/api/objects', get_all)
+  app.get('/api/objects', objects.get_all)
 
-  app.post('/api/objects', search_object)
+  app.post('/api/objects', objects.search_object)
 
-  app.post('/api/user', login)
+  app.post('/api/user', user.login)
 
-  app.post('/api/register', register)
+  app.post('/api/register', user.register)
 
-  manage.post('/object', insert_object)
+  manage.post('/object', objects.insert_object)
 
-  manage.put('/object', update_object)
+  manage.put('/object', objects.update_object)
 
-  manage.delete('/object', delete_object)
+  manage.delete('/object', objects.delete_object)
 
-  manage.post('/user', check_user)
+  manage.post('/user', user.check_user)
 
-  manage.put('/password', change_password)
+  manage.put('/password', user.change_password)
 
-  manage.post('/logout', logout)
+  manage.post('/logout', user.logout)
 }
 
-module.exports = router
+export default router

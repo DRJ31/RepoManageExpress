@@ -1,12 +1,10 @@
 const MongoClient = require('mongodb').MongoClient
 const assert = require('assert')
-const { HOST } = require('./config')
+import { DB, DATABASE } from './config'
 
-const url = `mongodb://${HOST}:27017`
-const DATABASE = "manage"
 
 const connectDB = (callback) => {
-  MongoClient.connect(url).then(callback).catch(err => assert.equal(err, null))
+  MongoClient.connect(DB).then(callback).catch(err => assert.equal(err, null))
 }
 
 const select = (name, query, callback) => {
