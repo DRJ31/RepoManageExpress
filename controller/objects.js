@@ -6,7 +6,7 @@ const get_all = (req, res) => {
     name: {$type: 'string'},
     amount: {$type: 'number'}
   }, data => {
-    mongo.select('products', {_keys: {$type: 'array'}}, keys => {
+    mongo.select('info', {_keys: {$type: 'array'}}, keys => {
       res.send({
         data,
         keys: keys[0]._keys
@@ -16,7 +16,7 @@ const get_all = (req, res) => {
 }
 
 const insert_object = (req, res) => {
-  mongo.select('products', {_keys: {$type: 'array'}}, (keys) => {
+  mongo.select('info', {_keys: {$type: 'array'}}, (keys) => {
     const { data } = req.body
     const new_keys = req.body.keys
     const all_keys = keys[0]._keys
@@ -26,13 +26,13 @@ const insert_object = (req, res) => {
       }
     }
     mongo.insert('products', data)
-    mongo.update('products', {_keys: {$type: 'array'}}, {$set: {_keys: all_keys}})
+    mongo.update('info', {_keys: {$type: 'array'}}, {$set: {_keys: all_keys}})
     res.send({ message: "Successfully added object" })
   })
 }
 
 const update_object = (req, res) => {
-  mongo.select('products', {_keys: {$type: 'array'}}, (keys) => {
+  mongo.select('info', {_keys: {$type: 'array'}}, (keys) => {
     const { data, unset } = req.body
     const new_keys = req.body.keys
     const _id = data['_id']
@@ -51,7 +51,7 @@ const update_object = (req, res) => {
     } else {
       mongo.update('products', {'_id': ObjectId(_id)}, { $set: data })
     }
-    mongo.update('products', {_keys: {$type: 'array'}}, {$set: {_keys: all_keys}})
+    mongo.update('info', {_keys: {$type: 'array'}}, {$set: {_keys: all_keys}})
     res.send({ message: "Successfully updated" })
   })
 }
