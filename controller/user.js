@@ -5,7 +5,7 @@ import { CODE } from '../util/config'
 
 const login = (req, res) => {
   const { username, password } = req.body
-  mongo.select('user', { username, password }, user => {
+  mongo.select('users', { username, password }, user => {
     if (user.length < 1) {
       res.status(401)
       res.send({ error: "Wrong username or password" })
@@ -46,13 +46,13 @@ const register = (req, res) => {
     res.send({ error: "Wrong invitation code" })
     return
   }
-  mongo.select('user', { username }, user => {
+  mongo.select('users', { username }, user => {
     if (user.length > 0) {
       res.status(401)
       res.send({ error: "Username existed" })
       return
     }
-    mongo.insert('user', { username, password })
+    mongo.insert('users', { username, password })
     res.send({ message: "Successfully registered" })
   })
 }
@@ -60,13 +60,13 @@ const register = (req, res) => {
 const change_password = (req, res) => {
   const { token, old_pass, new_pass } = req.body
   redis.get(`token_${token}`, username => {
-    mongo.select('user', { username }, user => {
+    mongo.select('users', { username }, user => {
       if (user[0].password !== old_pass) {
         res.status(403)
         res.send({ error: "The old password is incorrect" })
         return
       }
-      mongo.update('user', user[0], { $set: { password: new_pass } })
+      mongo.update('users', user[0], { $set: { password: new_pass } })
       res.send({ message: "Successfully changed password" })
     })
   })

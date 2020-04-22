@@ -2,11 +2,11 @@ import mongo from '../util/mongo'
 import { ObjectId } from 'mongodb'
 
 const get_all = (req, res) => {
-  mongo.select('info', {
+  mongo.select('products', {
     name: {$type: 'string'},
     amount: {$type: 'number'}
   }, data => {
-    mongo.select('info', {_keys: {$type: 'array'}}, keys => {
+    mongo.select('products', {_keys: {$type: 'array'}}, keys => {
       res.send({
         data,
         keys: keys[0]._keys
@@ -16,7 +16,7 @@ const get_all = (req, res) => {
 }
 
 const insert_object = (req, res) => {
-  mongo.select('info', {_keys: {$type: 'array'}}, (keys) => {
+  mongo.select('products', {_keys: {$type: 'array'}}, (keys) => {
     const { data } = req.body
     const new_keys = req.body.keys
     const all_keys = keys[0]._keys
@@ -25,14 +25,14 @@ const insert_object = (req, res) => {
         all_keys.push(key)
       }
     }
-    mongo.insert('info', data)
-    mongo.update('info', {_keys: {$type: 'array'}}, {$set: {_keys: all_keys}})
+    mongo.insert('products', data)
+    mongo.update('products', {_keys: {$type: 'array'}}, {$set: {_keys: all_keys}})
     res.send({ message: "Successfully added object" })
   })
 }
 
 const update_object = (req, res) => {
-  mongo.select('info', {_keys: {$type: 'array'}}, (keys) => {
+  mongo.select('products', {_keys: {$type: 'array'}}, (keys) => {
     const { data, unset } = req.body
     const new_keys = req.body.keys
     const _id = data['_id']
@@ -44,23 +44,23 @@ const update_object = (req, res) => {
       }
     }
     if (Object.keys(unset).length > 0) {
-      mongo.update('info', {'_id': ObjectId(_id)}, {
+      mongo.update('products', {'_id': ObjectId(_id)}, {
         $set: data,
         $unset: unset
       })
     } else {
-      mongo.update('info', {'_id': ObjectId(_id)}, { $set: data })
+      mongo.update('products', {'_id': ObjectId(_id)}, { $set: data })
     }
-    mongo.update('info', {_keys: {$type: 'array'}}, {$set: {_keys: all_keys}})
+    mongo.update('products', {_keys: {$type: 'array'}}, {$set: {_keys: all_keys}})
     res.send({ message: "Successfully updated" })
   })
 }
 
 const delete_object = (req, res) => {
   const _id = req.query.id
-  mongo.select('info', {'_id': ObjectId(_id)}, doc => {
+  mongo.select('products', {'_id': ObjectId(_id)}, doc => {
     if (doc.length > 0) {
-      mongo.del('info', doc[0])
+      mongo.del('products', doc[0])
       res.send({ message: "Successfully deleted" })
     } else {
       res.status(500)
@@ -78,7 +78,7 @@ const search_object = (req, res) => {
 
   const query = {}
   query[key] = typeof val === 'string' ? new RegExp(val, "i") : val
-  mongo.select('info', query, data => {
+  mongo.select('products', query, data => {
     for (let i = 0; i < data.length; i++) {
       data[i]['_id'] = data[i]['_id'].toString()
     }
